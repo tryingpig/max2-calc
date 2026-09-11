@@ -1,0 +1,17 @@
+{
+  "name": "맥스 2% 배팅 계산기",
+  "short_name": "맥스2%",
+  "description": "추세추종 2% 룰로 종목당 투자금·유닛·수량·손절가·목표가를 계산",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f5f1",
+  "theme_color": "#b15209",
+  "lang": "ko",
+  "icons": [
+    { "src": "icons/app-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/app-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/app-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
