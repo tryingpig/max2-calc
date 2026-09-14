@@ -118,6 +118,7 @@
   }
 
   .grid { display: grid; grid-template-columns: 340px 1fr; gap: 20px; align-items: start; }
+  .grid > *, .panel, .stack > * { min-width: 0; }
   @media (max-width: 860px) {
     .grid { grid-template-columns: 1fr; }
     body { font-size: 16px; padding-block: 18px 40px; }
@@ -149,7 +150,9 @@
     .btn { font-size: 15px; padding: 9px 14px; }
     .pos .nm { font-size: 17px; }
     .pos .nums { font-size: 15px; }
+    .close-form { grid-template-columns: 1fr; }
     .close-form input { font-size: 17px; }
+    .rec-row input[type="date"] { max-width: 100%; }
     .rec-row input[type="date"] { font-size: 16px; }
   }
 
@@ -160,7 +163,7 @@
     padding: 12px 16px 10px; border-bottom: 1px solid var(--line);
   }
   .panel h2 { font-size: 13px; font-weight: 600; margin: 0; letter-spacing: .02em; }
-  .panel .ph small { color: var(--ink-3); font-family: var(--mono); font-size: 11px; }
+  .panel .ph small { color: var(--ink-3); font-family: var(--mono); font-size: 11px; text-align: right; }
   .pb { padding: 14px 16px 16px; }
 
   /* ---------- inputs ---------- */
@@ -294,20 +297,21 @@
   .sum-line { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding: 0 0 12px; color: var(--ink-2); font-size: 13px; }
   .sum-line b { color: var(--ink); font-variant-numeric: tabular-nums; }
   .pos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 10px; }
-  .pos { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px 12px; display: grid; gap: 8px; background: var(--surface); }
+  .pos { min-width: 0; border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px 12px; display: grid; gap: 8px; background: var(--surface); }
   .pos.over { border-color: var(--accent); }
   .pos .hd { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
   .pos .nm { font-weight: 700; font-size: 15px; }
   .pos .dt { color: var(--ink-3); font-size: 12px; white-space: nowrap; }
   .pos .nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px 8px; font-size: 13px; }
-  .pos .nums div { display: grid; gap: 1px; }
+  .pos .nums div { display: grid; gap: 1px; min-width: 0; }
+  .pos .nums b { overflow-wrap: anywhere; }
   .pos .nums span { color: var(--ink-3); font-size: 11.5px; }
   .pos .nums b { font-weight: 600; font-variant-numeric: tabular-nums; }
   .pos .nums b.up { color: var(--up); } .pos .nums b.down { color: var(--down); }
   .pos .acts { display: flex; flex-wrap: wrap; gap: 6px; }
   .close-form { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; align-items: center; padding-top: 8px; border-top: 1px dashed var(--line); }
-  .close-form label { display: grid; gap: 2px; font-size: 11.5px; color: var(--ink-3); }
-  .close-form input { font: 500 14px var(--sans); padding: 6px 8px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface); color: var(--ink); width: 100%; box-sizing: border-box; }
+  .close-form label { display: grid; gap: 2px; font-size: 11.5px; color: var(--ink-3); min-width: 0; }
+  .close-form input { font: 500 14px var(--sans); padding: 6px 8px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface); color: var(--ink); width: 100%; min-width: 0; box-sizing: border-box; }
   .close-form .cf-btns { grid-column: 1 / -1; display: flex; gap: 6px; }
   .empty { color: var(--ink-3); font-size: 13px; padding: 4px 0 8px; }
   .tiles4 { grid-template-columns: repeat(4, 1fr); }
@@ -328,7 +332,7 @@
   <header class="top">
     <div class="top-row">
       <p class="eyebrow">깡토의 추세추종 · 손실은 짧게, 수익은 길게</p>
-      <span class="mock-tag">v0.5 · 시세 손 입력 · 매매 기록</span>
+      <span class="mock-tag">v0.5.1 · 시세 손 입력 · 매매 기록</span>
     </div>
     <h1>맥스 2% 배팅 계산기</h1>
     <p class="sub">한 번 매매했을 때 내 시드머니에서 최대 2% 이상의 손실이 나지 않도록, 한 종목 최대 투자금 → 유닛 → 매수 수량·손절가·3R 목표가를 계산합니다. 기준은 깡토 「진입시점·매수비중·손절기준 이 영상 하나로 총정리」(2026-09-10).</p>
