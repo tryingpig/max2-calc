@@ -139,6 +139,9 @@
     td.num { font-size: 16px; }
     td.big { font-size: 20px; }
     th, td { padding: 10px 6px; }
+    th:nth-child(4), td:nth-child(4) { display: none; }
+    td.lab-cell { white-space: normal; }
+    td.lab-cell .sub { display: block; font-size: 13px; color: var(--ink-3); font-weight: 400; margin-top: 3px; line-height: 1.4; }
     .rule { grid-template-columns: 1fr; gap: 4px 0; }
     .rule .lab { margin-top: 8px; }
     .rule .val { font-size: 15px; }
@@ -249,6 +252,8 @@
   .pill.warn { background: var(--accent-soft); color: var(--accent); }
   td.up { color: var(--up); } td.down { color: var(--down); }
   .tbl-wrap { overflow-x: auto; }
+  td.lab-cell { white-space: nowrap; }
+  td.lab-cell .sub { display: none; }
 
   /* rule check */
   .rule { display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; align-items: baseline; font-size: 13px; }
@@ -277,7 +282,7 @@
       <h1>맥스 2% 배팅 계산기</h1>
       <p class="sub">시드에서 한 번에 잃어도 되는 돈을 정하고, 거기서 거꾸로 종목당 투자금·유닛·수량을 뽑습니다. 기준은 깡토 「진입시점·매수비중·손절기준」 영상(2026-09-10).</p>
     </div>
-    <span class="mock-tag">v0.3 · 시세 손 입력</span>
+    <span class="mock-tag">v0.3.1 · 시세 손 입력</span>
   </header>
 
   <div class="grid">
@@ -400,19 +405,19 @@
             </thead>
             <tbody>
               <tr>
-                <td>매수</td>
+                <td class="lab-cell">매수<div class="sub" id="m-cost-note"></div></td>
                 <td class="num big"><span id="o-qty">21</span> 주</td>
                 <td class="num" id="o-cost">1,495,200 원</td>
                 <td id="o-cost-note">@71,200 · 배정 1,500,000원의 99.7%</td>
               </tr>
               <tr>
-                <td>손절가 <span class="pill down" id="o-stop-pct">−8%</span></td>
+                <td class="lab-cell">손절가 <span class="pill down" id="o-stop-pct">−8%</span><div class="sub" id="m-stop-note"></div></td>
                 <td class="num big down" id="o-stop">65,500 원</td>
                 <td class="num down" id="o-stop-amt">−119,616 원</td>
                 <td id="o-stop-note">시드의 1.20% · 한도 200,000원 이내</td>
               </tr>
               <tr>
-                <td>목표가 <span class="pill up" id="o-target-pct">+24%</span></td>
+                <td class="lab-cell">목표가 <span class="pill up" id="o-target-pct">+24%</span><div class="sub" id="m-target-note"></div></td>
                 <td class="num big up" id="o-target">88,288 원</td>
                 <td class="num up" id="o-target-amt">+358,848 원</td>
                 <td id="o-target-note">3R 도달 = 성공 → 다음 종목 +1유닛</td>
@@ -583,6 +588,9 @@
     $('o-target').textContent = won(c.target);
     $('o-target-amt').textContent = '+' + won(c.targetAmt);
     $('o-target-note').textContent = `${s.rr}R 도달 = 성공 → 다음 종목 +1유닛`;
+    $('m-cost-note').textContent = $('o-cost-note').textContent;
+    $('m-stop-note').textContent = $('o-stop-note').textContent;
+    $('m-target-note').textContent = $('o-target-note').textContent;
 
     // rule check
     const fullLoss = c.maxPos * c.r;
