@@ -1,5 +1,5 @@
 /* 오프라인용 캐시. 파일을 고치면 CACHE 이름의 버전을 올린다. */
-const CACHE = 'max2-calc-v10';
+const CACHE = 'max2-calc-v11';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icons/app-192.png', './icons/app-512.png'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));
