@@ -101,16 +101,16 @@
   .wrap { max-width: 1040px; margin: 0 auto; }
 
   header.top {
-    display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
-    gap: 12px 24px; margin-bottom: 22px;
+    display: grid; gap: 4px; margin-bottom: 22px;
     padding-bottom: 16px; border-bottom: 1px solid var(--line);
   }
+  .top-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .eyebrow {
-    font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--accent); margin: 0 0 6px;
+    font-family: var(--mono); font-size: 12.5px; letter-spacing: .04em; font-weight: 600;
+    color: var(--accent); margin: 0;
   }
   h1 { font-size: 24px; font-weight: 700; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
-  .sub { color: var(--ink-2); margin: 6px 0 0; max-width: 60ch; }
+  .sub { color: var(--ink-2); margin: 6px 0 0; max-width: none; }
   .sub a { color: inherit; }
   .mock-tag {
     font-family: var(--mono); font-size: 11px; color: var(--ink-3);
@@ -277,12 +277,12 @@
 
 <div class="wrap">
   <header class="top">
-    <div>
-      <p class="eyebrow">Trend Following · Risk First</p>
-      <h1>맥스 2% 배팅 계산기</h1>
-      <p class="sub">시드에서 한 번에 잃어도 되는 돈을 정하고, 거기서 거꾸로 종목당 투자금·유닛·수량을 뽑습니다. 기준은 깡토 「진입시점·매수비중·손절기준」 영상(2026-09-10).</p>
+    <div class="top-row">
+      <p class="eyebrow">깡토의 추세추종 · 손실은 짧게, 수익은 길게</p>
+      <span class="mock-tag">v0.4 · 시세 손 입력</span>
     </div>
-    <span class="mock-tag">v0.3.2 · 시세 손 입력</span>
+    <h1>맥스 2% 배팅 계산기</h1>
+    <p class="sub">한 번 매매했을 때 내 시드머니에서 최대 2% 이상의 손실이 나지 않도록, 한 종목 최대 투자금 → 유닛 → 매수 수량·손절가·3R 목표가를 계산합니다. 기준은 깡토 「진입시점·매수비중·손절기준 이 영상 하나로 총정리」(2026-09-10).</p>
   </header>
 
   <div class="grid">
@@ -290,31 +290,32 @@
     <aside class="panel" aria-label="설정">
       <div class="ph"><h2>설정</h2><small id="saved-note">기본값</small></div>
       <div class="pb">
-        <p class="section-label">계좌</p>
+        <p class="section-label">시드머니</p>
         <div class="field">
-          <label for="seed">시드 (총 투자금)</label>
+          <label for="seed">시드머니 (총 투자금)</label>
           <span class="inp"><input type="text" id="seed" inputmode="numeric" class="wide" value="10,000,000"><span class="unit">원</span></span>
         </div>
 
-        <p class="section-label">리스크 규칙</p>
+        <p class="section-label">리스크 관리</p>
         <div class="field">
-          <label for="maxloss">1회 최대손실 (맥스 룰)</label>
+          <label for="maxloss">맥스 2% 룰 (한 번 매매 최대 손실)</label>
           <span class="inp"><input type="number" id="maxloss" value="2" min="0.1" max="10" step="0.1"><span class="unit">%</span></span>
-          <span class="hint">한 번의 매매에서 시드 대비 잃어도 되는 상한. -2%에 손절하라는 뜻이 아님.</span>
+          <span class="hint">한 번 매매했을 때 내 시드머니에서 최대 이 % 이상의 손실이 나지 않겠다. −2%에 손절하라는 뜻이 아님.</span>
         </div>
         <div class="field">
-          <label for="r">손절폭 R</label>
+          <label for="r">R (리스크 · 손절 라인)</label>
           <span class="inp"><input type="number" id="r" value="8" min="1" max="50" step="0.5"><span class="unit">%</span></span>
-          <span class="hint">매수가 대비 손절 라인. 영상 예시 8%, 상황 따라 5~10%.</span>
+          <span class="hint">내가 얼마나 리스크를 감수할 수 있는가. 영상은 −8%로 픽스, 상황에 따라 −5%·−10%도 가능.</span>
         </div>
         <div class="field">
-          <label for="rr">최소 손익비 (목표 = R × 배수)</label>
+          <label for="rr">최소 손익비 (1 : N)</label>
           <span class="inp"><input type="number" id="rr" value="3" min="1" max="10" step="0.5"><span class="unit">배</span></span>
+          <span class="hint">3이면 3R. R이 8%면 +24%에 도달해야 성공. 추세추종 평균 승률 30~40%라서 최소 1:3.</span>
         </div>
 
-        <p class="section-label">유닛 구성</p>
+        <p class="section-label">유닛 나누기</p>
         <div class="field">
-          <label for="mu">장세 유닛</label>
+          <label for="mu">장세 판단 유닛</label>
           <span class="inp"><input type="number" id="mu" value="2" min="1" max="5" step="1"><span class="unit">개</span></span>
         </div>
         <div class="field">
@@ -322,35 +323,36 @@
           <span class="inp"><input type="number" id="su" value="3" min="1" max="10" step="1"><span class="unit">개</span></span>
         </div>
 
-        <p class="section-label">지금 상태</p>
+        <p class="section-label">장세 판단 · 점진적 배팅</p>
         <div class="field">
-          <label id="regime-label">장세 (코스피 60일선 기준)</label>
+          <label id="regime-label">장세 판단 (코스피 60일 이평선)</label>
           <span class="seg" role="group" aria-labelledby="regime-label">
-            <button type="button" id="regime-bull" aria-pressed="true">강세 · 위</button>
-            <button type="button" id="regime-bear" aria-pressed="false">약세 · 아래</button>
+            <button type="button" id="regime-bull" aria-pressed="true">강세장 · 위</button>
+            <button type="button" id="regime-bear" aria-pressed="false">약세장 · 아래</button>
           </span>
-          <span class="hint">강세면 장세 유닛 전부, 약세면 1유닛만 투입.</span>
+          <span class="hint">강세장이면 장세 판단 유닛 전부, 약세장이면 1유닛만 투입.</span>
         </div>
         <div class="field">
-          <label id="lvl-label">종목 유닛 단계</label>
+          <label id="lvl-label">종목 유닛 (점진적 배팅)</label>
           <span class="stepper" role="group" aria-labelledby="lvl-label">
             <button type="button" id="lvl-dn" aria-label="1 단계 내림">−</button>
             <output id="lvl-out" for="lvl-dn lvl-up">1 / 3</output>
             <button type="button" id="lvl-up" aria-label="1 단계 올림">+</button>
           </span>
           <span class="stepper-note">
-            <button type="button" id="ev-win">직전 종목 3R 달성 (+1)</button>
-            <button type="button" id="ev-loss">직전 종목 손절 (−1)</button>
+            <button type="button" id="ev-win">직전 종목 3R 도달 → +1유닛</button>
+            <button type="button" id="ev-loss">직전 종목 손절 → −1유닛</button>
           </span>
+          <span class="hint">앞서 산 다른 종목의 결과로 조절. 같은 종목 분할매수가 아님.</span>
         </div>
 
-        <p class="section-label">이번 종목</p>
+        <p class="section-label">이번에 매수할 종목</p>
         <div class="field">
           <label for="name">종목명 <span style="color:var(--ink-3)">(표시용)</span></label>
           <span class="inp"><input type="text" id="name" class="wide" value="삼성전자" style="text-align:left;font-family:var(--sans)"></span>
         </div>
         <div class="field">
-          <label for="price">매수가 (예정)</label>
+          <label for="price">매수가</label>
           <span class="inp"><input type="text" id="price" inputmode="numeric" class="wide" value="258,000"><span class="unit">원</span></span>
         </div>
       </div>
@@ -358,16 +360,16 @@
 
     <!-- ================= RESULT ================= -->
     <main class="stack">
-      <section class="panel" aria-label="계좌 기준 한도">
-        <div class="ph"><h2>계좌 기준 한도</h2><small>시드 × 규칙에서 바로 나오는 값</small></div>
+      <section class="panel" aria-label="맥스 2% 룰">
+        <div class="ph"><h2>맥스 2% 룰</h2><small>시드머니에서 바로 나오는 값</small></div>
         <div class="tiles">
           <div class="tile">
-            <div class="k">1회 최대손실액</div>
+            <div class="k">한 번 매매 최대 손실</div>
             <div class="v" id="t-maxloss">200,000<small>원</small></div>
             <div class="f" id="f-maxloss">시드 × 2%</div>
           </div>
           <div class="tile">
-            <div class="k">종목당 최대 투자금 (풀 유닛)</div>
+            <div class="k">한 종목 최대 투자금 (풀 배팅)</div>
             <div class="v" id="t-maxpos">2,500,000<small>원</small></div>
             <div class="f" id="f-maxpos">최대손실 ÷ R = 시드의 25%</div>
           </div>
@@ -379,13 +381,13 @@
         </div>
       </section>
 
-      <section class="panel" aria-label="이번 진입 유닛">
-        <div class="ph"><h2>이번 진입 유닛</h2><small>장세 유닛 + 종목 유닛</small></div>
+      <section class="panel" aria-label="이번 매수 비중">
+        <div class="ph"><h2>이번 매수 비중 (유닛)</h2><small>장세 판단 유닛 + 종목 유닛</small></div>
         <div class="pb ladder">
           <div class="slots" id="slots" aria-hidden="true"></div>
           <div class="legend">
-            <span><i style="background:var(--unit-market)"></i>장세 유닛 (시장이 정함)</span>
-            <span><i style="background:var(--unit-stock)"></i>종목 유닛 (성공·실패로 조절)</span>
+            <span><i style="background:var(--unit-market)"></i>장세 판단 유닛 (시장이 정함)</span>
+            <span><i style="background:var(--unit-stock)"></i>종목 유닛 (3R 성공 +1 · 손절 −1)</span>
             <span><i style="background:var(--unit-empty);border:1px dashed var(--line-strong)"></i>아직 못 쓰는 유닛</span>
           </div>
           <div class="entry-line">
@@ -397,11 +399,11 @@
       </section>
 
       <section class="panel" aria-label="주문 시트">
-        <div class="ph"><h2>주문 시트 · <span id="o-name">삼성전자</span></h2><small>매수가 기준 수량·손절·목표</small></div>
+        <div class="ph"><h2>주문 시트 · <span id="o-name">삼성전자</span></h2><small>매수가 기준 수량 · 손절가 · 3R 목표가</small></div>
         <div class="pb tbl-wrap">
           <table>
             <thead>
-              <tr><th>항목</th><th class="num">가격 / 수량</th><th class="num">금액</th><th>비고</th></tr>
+              <tr><th>항목</th><th class="num">가격 · 수량</th><th class="num">금액</th><th>비고</th></tr>
             </thead>
             <tbody>
               <tr>
@@ -417,7 +419,7 @@
                 <td id="o-stop-note">시드의 1.20% · 한도 200,000원 이내</td>
               </tr>
               <tr>
-                <td class="lab-cell">목표가 <span class="pill up" id="o-target-pct">+24%</span><div class="sub" id="m-target-note"></div></td>
+                <td class="lab-cell">목표가 3R <span class="pill up" id="o-target-pct">+24%</span><div class="sub" id="m-target-note"></div></td>
                 <td class="num big up" id="o-target">88,288 원</td>
                 <td class="num up" id="o-target-amt">+358,848 원</td>
                 <td id="o-target-note">3R 도달 = 성공 → 다음 종목 +1유닛</td>
@@ -427,20 +429,20 @@
         </div>
       </section>
 
-      <section class="panel" aria-label="규칙 점검">
-        <div class="ph"><h2>규칙 점검</h2><small>이 설정이 룰 안에 있는지</small></div>
+      <section class="panel" aria-label="룰 점검">
+        <div class="ph"><h2>룰 점검</h2><small>이 설정이 룰 안에 있는지</small></div>
         <div class="pb rule">
-          <span class="lab">2% 룰</span><span class="val" id="c-rule">풀 유닛(2,500,000원)에서 −8% 손절 시 손실 200,000원 = 시드의 <b>2.00%</b> <span class="pill ok">OK</span></span>
+          <span class="lab">맥스 2%</span><span class="val" id="c-rule">풀 유닛(2,500,000원)에서 −8% 손절 시 손실 200,000원 = 시드의 <b>2.00%</b> <span class="pill ok">OK</span></span>
           <span class="lab">동시 보유</span><span class="val" id="c-slots">풀 비중 기준 최대 <b>4종목</b> · 전부 손절 나도 시드의 8.0%</span>
-          <span class="lab">손익 구조</span><span class="val" id="c-edge">승률 30% 가정 10회: 7패 × −8% = −56%, 3승 × +24% = +72% → 순 <b>+16%</b></span>
+          <span class="lab">승률 30%</span><span class="val" id="c-edge">승률 30% 가정 10회: 7패 × −8% = −56%, 3승 × +24% = +72% → 순 <b>+16%</b></span>
           <span class="lab">손익분기 승률</span><span class="val" id="c-be">손익비 1:3이면 <b>25%</b>만 맞혀도 본전 (영상 평균 승률 30~40%)</span>
         </div>
       </section>
     </main>
   </div>
 
-  <section class="panel explain" aria-label="쉽게 말하면">
-    <div class="ph"><h2>쉽게 말하면</h2><small>지금 입력한 숫자로 설명</small></div>
+  <section class="panel explain" aria-label="깡토의 설명대로">
+    <div class="ph"><h2>깡토의 설명대로</h2><small>지금 입력한 숫자로</small></div>
     <div class="pb">
       <ol>
         <li><b>맥스 2% 룰.</b> "내가 한 번 매매했을 때 내 시드머니에서 최대 <span class="n" id="x-ml">2</span>% 이상의 손실이 나지 않겠다"는 규칙입니다. −2%에 손절하라는 뜻이 아닙니다. 시드가 <span class="n" id="x-seed">10,000,000</span>원이면 한 번 손실이 나면 <span class="n" id="x-maxloss">200,000</span>원이 최대 손실입니다. 금액이 아니라 %로 정하기 때문에 시드가 줄면 손실 금액도 비례해서 작아지고, 그래서 파산할 확률이 줄어듭니다.</li>
@@ -453,7 +455,7 @@
       <p class="note">"항상 시장은 옳다. 시장의 흐름에 따라서 내가 비중 조절을 어떻게 할 것인가." 수익은 시장이 주는 것이고, 시장이 좋을 때까지 내가 살아 있어야 그 수익을 받습니다. 손실은 짧게, 수익은 길게.</p>
     </div>
   </section>
-  <p class="formula">최대손실액 = 시드 × 맥스 룰 · 종목당 최대투자금 = 최대손실액 ÷ R · 1유닛 = 최대투자금 ÷ (장세 유닛 + 종목 유닛)<br>이번 진입 = (강세: 장세 유닛 전부 / 약세: 1) + 종목 유닛 단계 · 수량 = 배정금 ÷ 매수가 (내림)</p>
+  <p class="formula">한 번 매매 최대 손실 = 시드머니 × 맥스 2% · 한 종목 최대 투자금 = 최대 손실 ÷ R · 1유닛 = 최대 투자금 ÷ (장세 판단 유닛 + 종목 유닛)<br>이번 매수 = (강세장: 장세 유닛 전부 / 약세장: 1) + 종목 유닛 · 수량 = 배정금 ÷ 매수가 (내림) · 손절가 = 매수가 × (1 − R) · 목표가 = 매수가 × (1 + 3R)</p>
 </div>
 
 <script>
@@ -548,11 +550,11 @@
     $('regime-bear').setAttribute('aria-pressed', s.regime === 'bear');
 
     $('t-maxloss').innerHTML = fmt(c.maxLoss) + '<small>원</small>';
-    $('f-maxloss').textContent = `시드 × ${s.maxloss}%`;
+    $('f-maxloss').textContent = `시드머니 × ${s.maxloss}%`;
     $('t-maxpos').innerHTML = fmt(c.maxPos) + '<small>원</small>';
-    $('f-maxpos').textContent = `최대손실 ÷ R(${s.r}%) = 시드의 ${pct(c.maxPosPct, 1)}`;
+    $('f-maxpos').textContent = `최대 손실 ÷ R(${s.r}%) = 시드머니의 ${pct(c.maxPosPct, 1)}`;
     $('t-unit').innerHTML = fmt(c.unit) + '<small>원</small>';
-    $('f-unit').textContent = `최대 투자금 ÷ ${c.total}유닛 · 풀 비중이면 ${c.maxStocks}종목`;
+    $('f-unit').textContent = `최대 투자금 ÷ ${c.total}유닛 · 풀 배팅이면 최대 ${c.maxStocks}종목`;
 
     // ladder
     const slots = $('slots'); slots.innerHTML = '';
@@ -570,25 +572,25 @@
     }
     $('e-units').textContent = c.units;
     $('e-amt').textContent = fmt(c.amt);
-    $('e-why').textContent = `${s.regime === 'bull' ? '강세' : '약세'} ${c.marketNow} + 종목 ${s.lvl}`;
-    $('e-range').textContent = `이 장세에서 진입 범위: 최소 ${c.minUnits}유닛(${fmt(c.unit * c.minUnits)}원) ~ 최대 ${c.maxUnits}유닛(${fmt(c.unit * c.maxUnits)}원)`;
+    $('e-why').textContent = `${s.regime === 'bull' ? '강세장' : '약세장'} ${c.marketNow} + 종목 ${s.lvl}`;
+    $('e-range').textContent = `이 장세에서는 최소 ${c.minUnits}유닛(${fmt(c.unit * c.minUnits)}원)부터 풀 배팅 ${c.maxUnits}유닛(${fmt(c.unit * c.maxUnits)}원)까지`;
 
     // order sheet
     $('o-name').textContent = s.name;
     $('o-qty').textContent = fmt(c.qty);
     $('o-cost').textContent = won(c.cost);
     $('o-cost-note').textContent = c.price > 0
-      ? `@${fmt(c.price)} · 배정 ${fmt(c.amt)}원의 ${c.amt > 0 ? pct(c.cost / c.amt, 1) : '0%'}` + (c.qty === 0 ? ' · 1주도 못 삼' : '')
+      ? `매수가 ${fmt(c.price)} · 배정 ${fmt(c.amt)}원 중 ${c.amt > 0 ? pct(c.cost / c.amt, 1) : '0%'}` + (c.qty === 0 ? ' · 1주도 못 삼' : '')
       : '매수가를 입력하세요';
     $('o-stop-pct').textContent = `−${s.r}%`;
     $('o-stop').textContent = won(c.stop);
     $('o-stop-amt').textContent = '−' + won(c.stopAmt);
     const lossRatio = c.seed > 0 ? c.stopAmt / c.seed : 0;
-    $('o-stop-note').textContent = `시드의 ${pct(lossRatio, 2)} · 한도 ${fmt(c.maxLoss)}원 ${c.stopAmt <= c.maxLoss + 0.5 ? '이내' : '초과!'}`;
+    $('o-stop-note').textContent = `시드머니의 ${pct(lossRatio, 2)} · 맥스 ${s.maxloss}% 한도 ${fmt(c.maxLoss)}원 ${c.stopAmt <= c.maxLoss + 0.5 ? '안' : '초과!'}`;
     $('o-target-pct').textContent = `+${(s.r * s.rr).toFixed(1).replace(/\.0$/, '')}%`;
     $('o-target').textContent = won(c.target);
     $('o-target-amt').textContent = '+' + won(c.targetAmt);
-    $('o-target-note').textContent = `${s.rr}R 도달 = 성공 → 다음 종목 +1유닛`;
+    $('o-target-note').textContent = `${s.rr}R 도달 = 성공 → 다음 종목은 +1유닛`;
     $('m-cost-note').textContent = $('o-cost-note').textContent;
     $('m-stop-note').textContent = $('o-stop-note').textContent;
     $('m-target-note').textContent = $('o-target-note').textContent;
@@ -597,14 +599,14 @@
     const fullLoss = c.maxPos * c.r;
     const fullPct = c.seed > 0 ? fullLoss / c.seed : 0;
     const ok = fullPct <= c.ml + 1e-9;
-    $('c-rule').innerHTML = `풀 유닛(${fmt(c.maxPos)}원)에서 −${s.r}% 손절 시 손실 ${fmt(fullLoss)}원 = 시드의 <b>${pct(fullPct, 2)}</b> <span class="pill ${ok ? 'ok' : 'warn'}">${ok ? 'OK' : '초과'}</span>`;
-    $('c-slots').innerHTML = `풀 비중 기준 최대 <b>${c.maxStocks}종목</b> · 전부 손절 나도 시드의 ${pct(c.maxStocks * c.ml, 1)}`;
+    $('c-rule').innerHTML = `풀 배팅(${fmt(c.maxPos)}원)에서 −${s.r}% 손절 시 손실 ${fmt(fullLoss)}원 = 시드머니의 <b>${pct(fullPct, 2)}</b> <span class="pill ${ok ? 'ok' : 'warn'}">${ok ? 'OK' : '초과'}</span>`;
+    $('c-slots').innerHTML = `풀 배팅 기준 최대 <b>${c.maxStocks}종목</b> · 전부 손절 나도 시드머니의 ${pct(c.maxStocks * c.ml, 1)}`;
     const W = 3, L = 7;
     const lossSum = L * s.r, winSum = W * s.r * s.rr, net = winSum - lossSum;
-    $('c-edge').innerHTML = `승률 30% 가정 10회: ${L}패 × −${s.r}% = −${lossSum.toFixed(0)}%, ${W}승 × +${(s.r * s.rr).toFixed(0)}% = +${winSum.toFixed(0)}% → 순 <b>${net >= 0 ? '+' : ''}${net.toFixed(0)}%</b>`;
-    $('c-be').innerHTML = `손익비 1:${s.rr}이면 <b>${pct(c.be, 0)}</b>만 맞혀도 본전 (영상 평균 승률 30~40%)`;
+    $('c-edge').innerHTML = `열 번 매매해서 일곱 번 실패 ${L} × −${s.r}% = −${lossSum.toFixed(0)}%, 세 번 성공 ${W} × +${(s.r * s.rr).toFixed(0)}% = +${winSum.toFixed(0)}% → 빼도 <b>${net >= 0 ? '+' : ''}${net.toFixed(0)}%</b>`;
+    $('c-be').innerHTML = `손익비 1:${s.rr}이면 <b>${pct(c.be, 0)}</b>만 성공해도 본전 (추세추종 평균 승률 30~40%)`;
 
-    // 쉽게 말하면 — 입력한 숫자로 채움
+    // 깡토의 설명대로 — 입력한 숫자로 채움
     const tgt = (s.r * s.rr).toFixed(1).replace(/\.0$/, '');
     const rTxt = String(s.r).replace(/\.0$/, '');
     const put = (id, v) => { const el = $(id); if (el) el.textContent = v; };
