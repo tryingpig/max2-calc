@@ -282,7 +282,7 @@
       <h1>맥스 2% 배팅 계산기</h1>
       <p class="sub">시드에서 한 번에 잃어도 되는 돈을 정하고, 거기서 거꾸로 종목당 투자금·유닛·수량을 뽑습니다. 기준은 깡토 「진입시점·매수비중·손절기준」 영상(2026-09-10).</p>
     </div>
-    <span class="mock-tag">v0.3.1 · 시세 손 입력</span>
+    <span class="mock-tag">v0.3.2 · 시세 손 입력</span>
   </header>
 
   <div class="grid">
@@ -443,13 +443,14 @@
     <div class="ph"><h2>쉽게 말하면</h2><small>지금 입력한 숫자로 설명</small></div>
     <div class="pb">
       <ol>
-        <li><b>한 번 틀려도 되는 돈</b>부터 정합니다. 시드 <span class="n" id="x-seed">10,000,000</span>원의 <span class="n" id="x-ml">2</span>%면 <span class="n" id="x-maxloss">200,000</span>원. 어떤 종목이든 한 번 손절로 이 돈 이상은 잃지 않게 나머지를 맞춥니다.</li>
-        <li><b>종목당 최대 투자금</b>은 그 돈에서 거꾸로 나옵니다. 손절선이 −<span class="n" id="x-r">8</span>%니까, "얼마를 사야 −<span id="x-r2">8</span>%가 딱 <span id="x-maxloss2">200,000</span>원이 되나"를 계산하면 <span class="n" id="x-maxpos">2,500,000</span>원(시드의 <span id="x-maxpospct">25%</span>)입니다. 이게 한 종목의 천장입니다.</li>
-        <li><b>천장을 한 번에 다 쓰지 않습니다.</b> <span id="x-total">5</span>조각(유닛)으로 나눠 한 조각 <span class="n" id="x-unit">500,000</span>원씩 씁니다.</li>
-        <li><b>몇 조각을 쓸지는 두 가지가 정합니다.</b> 시장이 좋으면(코스피가 60일선 위) 장세 조각 <span id="x-mu">2</span>개, 나쁘면 1개. 여기에 종목 조각을 더하는데, 1개로 시작해서 <em>직전에 산 다른 종목</em>이 목표(+<span id="x-target">24</span>%)에 닿으면 1개 늘리고, 손절 나면 1개 줄입니다. 잘 될 때 커지고 안 될 때 작아지는 구조입니다.</li>
-        <li><b>지금은</b> <span id="x-regime">강세</span>장 <span id="x-mnow">2</span>조각 + 종목 <span id="x-lvl">1</span>조각 = <span class="n" id="x-units">3</span>조각, <span class="n" id="x-amt">1,500,000</span>원입니다. 이 돈을 매수가 <span id="x-price">258,000</span>원으로 나누면 <span class="n" id="x-qty">5</span>주. 손절가는 매수가의 −<span id="x-r3">8</span>%, 목표가는 +<span id="x-target2">24</span>%(손익비 1:<span id="x-rr">3</span>)입니다.</li>
+        <li><b>맥스 2% 룰.</b> "내가 한 번 매매했을 때 내 시드머니에서 최대 <span class="n" id="x-ml">2</span>% 이상의 손실이 나지 않겠다"는 규칙입니다. −2%에 손절하라는 뜻이 아닙니다. 시드가 <span class="n" id="x-seed">10,000,000</span>원이면 한 번 손실이 나면 <span class="n" id="x-maxloss">200,000</span>원이 최대 손실입니다. 금액이 아니라 %로 정하기 때문에 시드가 줄면 손실 금액도 비례해서 작아지고, 그래서 파산할 확률이 줄어듭니다.</li>
+        <li><b>R(리스크)과 종목당 최대 투자금.</b> R은 "내가 얼마나 리스크를 감수할 수 있는가", 즉 손절 라인입니다. −<span class="n" id="x-r">8</span>%로 픽스했다면 "어떤 종목 × <span id="x-r2">0.08</span> = <span id="x-maxloss2">200,000</span>원"이 돼야 하니까, 어떤 종목을 살 수 있는 최대 금액은 <span id="x-maxloss3">200,000</span> ÷ <span id="x-r4">0.08</span> = <span class="n" id="x-maxpos">2,500,000</span>원, 시드의 <span id="x-maxpospct">25%</span>입니다. 다른 종목을 살 때도 똑같이 <span id="x-maxpos2">2,500,000</span>원씩이라 최대 <span id="x-maxstocks">4</span>종목까지 들어갑니다.</li>
+        <li><b>손익비 1:<span id="x-rr">3</span>, 3R.</b> R이 <span id="x-r3">8</span>%면 3R은 <span class="n" id="x-target">24</span>%입니다. +<span id="x-target2">24</span>%에 도달하면 성공, −<span id="x-r5">8</span>%에 손절하면 실패. 추세추종 돌파 매매는 10년 20년 통계를 뽑아도 평균 승률이 30~40%라서 최소 손익비를 1:3으로 잡은 겁니다. 열 번 매매해서 일곱 번 실패하면 7 × <span id="x-r6">8</span> = <span id="x-losssum">56</span>% 손실, 세 번 성공하면 3 × <span id="x-target3">24</span> = <span id="x-winsum">72</span>%. 빼도 수익입니다. 1:3은 최소 기준이고, 실제로는 추세가 꺾일 때까지 끌고 가는 게 원칙입니다.</li>
+        <li><b>유닛과 점진적 배팅.</b> 유닛은 분할매수와 다른 개념입니다. "이 종목의 포지션을 최초에 어느 정도로 살 것인가"를 조절하는 방법입니다. <span id="x-maxpos3">2,500,000</span>원을 <span id="x-total">5</span>유닛으로 나누면 한 번 매매할 때 <span class="n" id="x-unit">500,000</span>원입니다. 삼성전자를 1유닛으로 샀는데 3R(+<span id="x-target4">24</span>%)에 도달했다, 그 사이 SK하이닉스에 장대양봉이 나왔다, 그러면 하이닉스는 2유닛으로 들어갑니다. 성공할 때마다 +1유닛, −<span id="x-r7">8</span>% 손절할 때마다 −1유닛. 삼성전자를 또 사는 게 아니라 A 종목에서 B 종목으로, 아예 다른 종목에 적용합니다. 시장이 좋으면 A, B, C, D가 같이 오르니까 자연스럽게 풀 유닛·풀 배팅이 되고, 시장이 나빠서 손절이 이어지면 최소 유닛이 됩니다. 그래서 손실은 작게, 수익은 크게 되는 효과가 납니다.</li>
+        <li><b>장세 판단.</b> 장세 판단은 새로운 유닛이라고 생각하면 됩니다. 코스피가 60일 이평선 위에 있으면 강세장, 아래면 약세장. 유닛을 종목 유닛 <span id="x-su">3</span>개 + 장세 판단 유닛 <span id="x-mu">2</span>개로 나눕니다. 강세장이면 애초 투입이 장세 <span id="x-mu2">2</span>유닛 <span id="x-muamt">1,000,000</span>원이고, 거기에 종목 1유닛을 더해 삼성전자를 <span id="x-firstamt">1,500,000</span>원 <span id="x-firstunits">3</span>유닛으로 삽니다. 약세장이면 장세 1유닛만 넣습니다. 시장이 어떻게 될지는 모르기 때문에 시장을 보고 후행적으로 판단하는 겁니다.</li>
+        <li><b>지금 이 화면은</b> <span id="x-regime">강세</span>장 <span id="x-mnow">2</span>유닛 + 종목 <span id="x-lvl">1</span>유닛 = <span class="n" id="x-units">3</span>유닛, <span class="n" id="x-amt">1,500,000</span>원입니다. 매수가 <span id="x-price">258,000</span>원이면 <span class="n" id="x-qty">5</span>주. 손절가는 매수가의 −<span id="x-r8">8</span>%, 목표가는 +<span id="x-target5">24</span>%입니다.</li>
       </ol>
-      <p class="note">왜 1:3이냐면, 추세추종 돌파 매매의 평균 승률이 30~40%라서입니다. 10번 중 7번 틀려도 3번을 3배로 벌면 남습니다. 그래서 목표에 닿기 전엔 팔지 않고, 손절선에 닿으면 미련 없이 끊는 게 규칙의 전부입니다.</p>
+      <p class="note">"항상 시장은 옳다. 시장의 흐름에 따라서 내가 비중 조절을 어떻게 할 것인가." 수익은 시장이 주는 것이고, 시장이 좋을 때까지 내가 살아 있어야 그 수익을 받습니다. 손실은 짧게, 수익은 길게.</p>
     </div>
   </section>
   <p class="formula">최대손실액 = 시드 × 맥스 룰 · 종목당 최대투자금 = 최대손실액 ÷ R · 1유닛 = 최대투자금 ÷ (장세 유닛 + 종목 유닛)<br>이번 진입 = (강세: 장세 유닛 전부 / 약세: 1) + 종목 유닛 단계 · 수량 = 배정금 ÷ 매수가 (내림)</p>
@@ -603,14 +604,20 @@
     $('c-edge').innerHTML = `승률 30% 가정 10회: ${L}패 × −${s.r}% = −${lossSum.toFixed(0)}%, ${W}승 × +${(s.r * s.rr).toFixed(0)}% = +${winSum.toFixed(0)}% → 순 <b>${net >= 0 ? '+' : ''}${net.toFixed(0)}%</b>`;
     $('c-be').innerHTML = `손익비 1:${s.rr}이면 <b>${pct(c.be, 0)}</b>만 맞혀도 본전 (영상 평균 승률 30~40%)`;
 
-    // 쉽게 말하면
+    // 쉽게 말하면 — 입력한 숫자로 채움
     const tgt = (s.r * s.rr).toFixed(1).replace(/\.0$/, '');
-    const put = (id, v) => { $(id).textContent = v; };
-    put('x-seed', fmt(c.seed)); put('x-ml', s.maxloss); put('x-maxloss', fmt(c.maxLoss));
-    put('x-r', s.r); put('x-r2', s.r); put('x-r3', s.r); put('x-maxloss2', fmt(c.maxLoss));
-    put('x-maxpos', fmt(c.maxPos)); put('x-maxpospct', pct(c.maxPosPct, 0));
-    put('x-total', c.total); put('x-unit', fmt(c.unit)); put('x-mu', c.mu);
-    put('x-target', tgt); put('x-target2', tgt); put('x-rr', s.rr);
+    const rTxt = String(s.r).replace(/\.0$/, '');
+    const put = (id, v) => { const el = $(id); if (el) el.textContent = v; };
+    put('x-ml', s.maxloss); put('x-seed', fmt(c.seed)); put('x-maxloss', fmt(c.maxLoss));
+    ['x-r','x-r3','x-r5','x-r6','x-r7','x-r8'].forEach(id => put(id, rTxt));
+    ['x-r2','x-r4'].forEach(id => put(id, String(s.r / 100)));
+    ['x-maxloss2','x-maxloss3'].forEach(id => put(id, fmt(c.maxLoss)));
+    ['x-maxpos','x-maxpos2','x-maxpos3'].forEach(id => put(id, fmt(c.maxPos)));
+    put('x-maxpospct', pct(c.maxPosPct, 0)); put('x-maxstocks', c.maxStocks);
+    put('x-rr', s.rr); ['x-target','x-target2','x-target3','x-target4','x-target5'].forEach(id => put(id, tgt));
+    put('x-losssum', (7 * s.r).toFixed(0)); put('x-winsum', (3 * s.r * s.rr).toFixed(0));
+    put('x-total', c.total); put('x-unit', fmt(c.unit)); put('x-su', c.su); put('x-mu', c.mu); put('x-mu2', c.mu);
+    put('x-muamt', fmt(c.unit * c.mu)); put('x-firstamt', fmt(c.unit * (c.mu + 1))); put('x-firstunits', c.mu + 1);
     put('x-regime', s.regime === 'bull' ? '강세' : '약세'); put('x-mnow', c.marketNow); put('x-lvl', s.lvl);
     put('x-units', c.units); put('x-amt', fmt(c.amt)); put('x-price', fmt(c.price)); put('x-qty', fmt(c.qty));
   }
