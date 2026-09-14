@@ -105,6 +105,8 @@
     padding-bottom: 16px; border-bottom: 1px solid var(--line);
   }
   .top-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .top-right { display: inline-flex; align-items: center; gap: 8px; }
+  #btn-token { padding: 4px 8px; font-size: 14px; line-height: 1; }
   .eyebrow {
     font-family: var(--mono); font-size: 12.5px; letter-spacing: .04em; font-weight: 600;
     color: var(--accent); margin: 0;
@@ -278,6 +280,17 @@
   .formula { margin-top: 14px; color: var(--ink-3); font-size: 12.5px; text-align: center; line-height: 1.7; }
   code { font-family: var(--mono); font-size: 12px; background: var(--surface-2); padding: 1px 5px; border-radius: 3px; }
 
+  /* ---------- 토큰 창 ---------- */
+  dialog#gate { border: 1px solid var(--line-strong); border-radius: 8px; padding: 0; background: var(--surface); color: var(--ink); width: min(92vw, 420px); }
+  dialog#gate::backdrop { background: rgba(20, 16, 8, .55); }
+  #gate-form { padding: 20px 20px 16px; display: grid; gap: 12px; }
+  #gate-form h2 { margin: 0; font-size: 17px; }
+  #gate-form .hint { margin: 0; color: var(--ink-2); font-size: 13.5px; line-height: 1.6; }
+  #gate-form input { font: 500 16px var(--sans); padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface); color: var(--ink); width: 100%; box-sizing: border-box; }
+  #gate-form input:focus { outline: 2px solid var(--focus); outline-offset: 1px; }
+  #gate-form .err { margin: 0; color: var(--up); font-size: 13px; }
+  #gate-form .row { display: flex; justify-content: flex-end; gap: 8px; }
+
   /* ---------- 매매 기록 ---------- */
   .btn { font: 500 13px var(--sans); padding: 7px 12px; border-radius: 4px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; }
   .btn:hover { border-color: var(--accent); }
@@ -291,7 +304,8 @@
   .rec-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 16px 14px; border-top: 1px solid var(--line); }
   .rec-row .msg { color: var(--ink-3); font-size: 12.5px; }
   .rec-row input[type="date"] { font: 500 13px var(--sans); padding: 6px 8px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface); color: var(--ink); }
-  .sync-status { color: var(--ink-3); font-size: 12px; grid-column: 1 / -1; }
+  .panel .ph small.sync-status { font-family: var(--sans); }
+  .sync-status { color: var(--ink-3); font-size: 12px; }
   .sync-status.ok { color: var(--unit-stock); }
   .sync-status.err { color: var(--up); }
   .sum-line { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding: 0 0 12px; color: var(--ink-2); font-size: 13px; }
@@ -332,7 +346,7 @@
   <header class="top">
     <div class="top-row">
       <p class="eyebrow">깡토의 추세추종 · 손실은 짧게, 수익은 길게</p>
-      <span class="mock-tag">v0.5.1 · 시세 손 입력 · 매매 기록</span>
+      <span class="top-right"><span class="mock-tag">v0.6 · 시세 손 입력 · 매매 기록</span><button type="button" class="btn ghost" id="btn-token" title="접근 토큰">🔑</button></span>
     </div>
     <h1>맥스 2% 배팅 계산기</h1>
     <p class="sub">한 번 매매했을 때 내 시드머니에서 최대 2% 이상의 손실이 나지 않도록, 한 종목 최대 투자금 → 유닛 → 매수 수량·손절가·3R 목표가를 계산합니다. 기준은 깡토 「진입시점·매수비중·손절기준 이 영상 하나로 총정리」(2026-09-10).</p>
@@ -409,18 +423,6 @@
           <span class="inp"><input type="text" id="price" inputmode="numeric" class="wide" value="258,000"><span class="unit">원</span></span>
         </div>
 
-        <p class="section-label">매매 기록 동기화 (비밀 Gist)</p>
-        <div class="field">
-          <label for="pat">GitHub 토큰 (gist 권한만)</label>
-          <span class="inp"><input type="password" id="pat" class="wide" autocomplete="off" placeholder="ghp_…" style="text-align:left"></span>
-          <span class="stepper-note">
-            <button type="button" id="pat-save">연결</button>
-            <button type="button" id="pat-clear">해제</button>
-            <button type="button" id="sync-now">지금 불러오기</button>
-          </span>
-          <span class="sync-status" id="sync-status">Gist 확인 중…</span>
-          <span class="hint">토큰은 이 기기 브라우저에만 저장됩니다. 토큰이 없어도 읽기는 되고, 기록은 이 기기에만 남습니다.</span>
-        </div>
       </div>
     </aside>
 
@@ -501,7 +503,7 @@
       </section>
 
       <section class="panel" aria-label="보유 종목">
-        <div class="ph"><h2>보유 종목</h2><small id="pos-sub">기록된 매수 중 아직 안 판 것</small></div>
+        <div class="ph"><h2>보유 종목</h2><small id="sync-status" class="sync-status">Gist 확인 중…</small></div>
         <div class="pb">
           <div class="sum-line" id="pos-sum"></div>
           <div class="pos-grid" id="pos-grid"></div>
@@ -553,6 +555,19 @@
   </section>
   <p class="formula">한 번 매매 최대 손실 = 시드머니 × 맥스 2% · 한 종목 최대 투자금 = 최대 손실 ÷ R · 1유닛 = 최대 투자금 ÷ (장세 판단 유닛 + 종목 유닛)<br>이번 매수 = (강세장: 장세 유닛 전부 / 약세장: 1) + 종목 유닛 · 수량 = 배정금 ÷ 매수가 (내림) · 손절가 = 매수가 × (1 − R) · 목표가 = 매수가 × (1 + 3R)</p>
 </div>
+
+<dialog id="gate">
+  <form method="dialog" id="gate-form">
+    <h2>🔑 접근 토큰</h2>
+    <p class="hint">매매 기록은 비밀 Gist에 저장됩니다. <b>gist</b> 권한만 있는 GitHub 토큰(classic)을 넣으면 이 브라우저에만 저장됩니다(localStorage). 토큰 없이 닫으면 계산기는 쓸 수 있지만 기록은 이 기기에만 남습니다.</p>
+    <input id="gate-input" type="password" placeholder="ghp_…" autocomplete="off" spellcheck="false">
+    <p class="err" id="gate-err" hidden></p>
+    <div class="row">
+      <button type="button" class="btn ghost" id="gate-cancel">토큰 없이 닫기</button>
+      <button type="submit" class="btn primary" id="gate-ok">확인</button>
+    </div>
+  </form>
+</dialog>
 
 <script>
 (function () {
@@ -667,25 +682,41 @@
       } catch (e) { setSync(`저장 실패: ${e.message} · 이 기기에는 남아 있음`, 'err'); }
     }, 400);
   }
-  $('pat').value = getPat();
-  $('pat-save').addEventListener('click', async () => {
-    const v = $('pat').value.trim();
-    if (!v) { setSync('토큰을 입력하세요', 'err'); return; }
-    setSync('토큰 확인 중…', '');
+  /* ---------- 토큰 창: 접속 때 확인, 없거나 거부되면 띄운다 ---------- */
+  const gate = $('gate'), gateErr = $('gate-err'), gateIn = $('gate-input');
+  function openGate(msg) {
+    gateIn.value = getPat();
+    gateErr.hidden = !msg; gateErr.textContent = msg || '';
+    if (!gate.open) gate.showModal();
+  }
+  async function verifyPat(v) {
+    const r = await fetch(`https://api.github.com/gists/${GIST_ID}`, { headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + v }, cache: 'no-store' });
+    if (r.status === 401 || r.status === 403) throw new Error('토큰이 거부되었습니다. gist 권한이 있는 classic 토큰인지 확인해 주세요.');
+    if (!r.ok) throw new Error('확인 실패 (HTTP ' + r.status + ')');
+    const scopes = r.headers.get('x-oauth-scopes') || '';
+    if (scopes && !/\bgist\b/.test(scopes)) throw new Error('이 토큰에 gist 권한이 없습니다 (현재: ' + scopes + ')');
+    return r.json();
+  }
+  $('gate-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const v = gateIn.value.trim();
+    if (!v) { gateErr.hidden = false; gateErr.textContent = '토큰을 입력하세요'; return; }
+    gateErr.hidden = false; gateErr.textContent = '확인 중…';
     try {
-      const r = await fetch(`https://api.github.com/gists/${GIST_ID}`, { headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + v }, cache: 'no-store' });
-      if (r.status === 401) throw new Error('토큰이 유효하지 않습니다');
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      const g = await r.json();
-      const scopes = (r.headers.get('x-oauth-scopes') || '');
-      if (scopes && !/\bgist\b/.test(scopes)) throw new Error('이 토큰에 gist 권한이 없습니다 (현재: ' + scopes + ')');
-      setPat(v);
-      setSync(`연결됨 · Gist 주인 ${g.owner ? g.owner.login : '?'} · 이제 기록이 Gist에 저장됩니다`, 'ok');
+      const g = await verifyPat(v);
+      setPat(v); gate.close();
+      setSync(`연결됨 · ${g.owner ? g.owner.login : ''} · 기록이 Gist에 저장됩니다`, 'ok');
       pullJ(true);
-    } catch (e) { setSync('연결 실패: ' + e.message, 'err'); }
+    } catch (x) { gateErr.textContent = x.message; }
   });
-  $('pat-clear').addEventListener('click', () => { setPat(''); $('pat').value = ''; setSync('토큰 해제 · 읽기는 계속 되고, 기록은 이 기기에만 남습니다', ''); });
-  $('sync-now').addEventListener('click', () => pullJ(false));
+  $('gate-cancel').addEventListener('click', () => { gate.close(); if (!getPat()) setSync('토큰 없음 · 기록은 이 기기에만 남습니다 (🔑로 다시 열기)', ''); });
+  $('btn-token').addEventListener('click', () => openGate(''));
+  async function checkAccess() {
+    const t = getPat();
+    if (!t) { openGate(''); return; }
+    try { await verifyPat(t); }
+    catch (x) { openGate(x.message); }
+  }
   $('rec-date').value = today();
 
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
@@ -903,7 +934,7 @@
 
   clampLvl();
   render();
-  pullJ(false);
+  checkAccess().then(() => pullJ(false));
   if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js').catch(() => {}); }
 })();
 </script>
