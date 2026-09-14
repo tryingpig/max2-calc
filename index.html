@@ -146,6 +146,11 @@
     .rule .lab { margin-top: 8px; }
     .rule .val { font-size: 15px; }
     .explain li { font-size: 16px; }
+    .btn { font-size: 15px; padding: 9px 14px; }
+    .pos .nm { font-size: 17px; }
+    .pos .nums { font-size: 15px; }
+    .close-form input { font-size: 17px; }
+    .rec-row input[type="date"] { font-size: 16px; }
   }
 
   /* ---------- panels ---------- */
@@ -270,6 +275,50 @@
   .formula { margin-top: 14px; color: var(--ink-3); font-size: 12.5px; text-align: center; line-height: 1.7; }
   code { font-family: var(--mono); font-size: 12px; background: var(--surface-2); padding: 1px 5px; border-radius: 3px; }
 
+  /* ---------- 매매 기록 ---------- */
+  .btn { font: 500 13px var(--sans); padding: 7px 12px; border-radius: 4px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; }
+  .btn:hover { border-color: var(--accent); }
+  .btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+  .btn.up { color: var(--up); border-color: var(--up); }
+  .btn.down { color: var(--down); border-color: var(--down); }
+  .btn.ghost { color: var(--ink-3); border-color: var(--line); }
+  .btn.danger { color: var(--up); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .rec-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 16px 14px; border-top: 1px solid var(--line); }
+  .rec-row .msg { color: var(--ink-3); font-size: 12.5px; }
+  .rec-row input[type="date"] { font: 500 13px var(--sans); padding: 6px 8px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface); color: var(--ink); }
+  .sync-status { color: var(--ink-3); font-size: 12px; grid-column: 1 / -1; }
+  .sync-status.ok { color: var(--unit-stock); }
+  .sync-status.err { color: var(--up); }
+  .sum-line { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding: 0 0 12px; color: var(--ink-2); font-size: 13px; }
+  .sum-line b { color: var(--ink); font-variant-numeric: tabular-nums; }
+  .pos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 10px; }
+  .pos { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px 12px; display: grid; gap: 8px; background: var(--surface); }
+  .pos.over { border-color: var(--accent); }
+  .pos .hd { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .pos .nm { font-weight: 700; font-size: 15px; }
+  .pos .dt { color: var(--ink-3); font-size: 12px; white-space: nowrap; }
+  .pos .nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px 8px; font-size: 13px; }
+  .pos .nums div { display: grid; gap: 1px; }
+  .pos .nums span { color: var(--ink-3); font-size: 11.5px; }
+  .pos .nums b { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .pos .nums b.up { color: var(--up); } .pos .nums b.down { color: var(--down); }
+  .pos .acts { display: flex; flex-wrap: wrap; gap: 6px; }
+  .close-form { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; align-items: center; padding-top: 8px; border-top: 1px dashed var(--line); }
+  .close-form label { display: grid; gap: 2px; font-size: 11.5px; color: var(--ink-3); }
+  .close-form input { font: 500 14px var(--sans); padding: 6px 8px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface); color: var(--ink); width: 100%; box-sizing: border-box; }
+  .close-form .cf-btns { grid-column: 1 / -1; display: flex; gap: 6px; }
+  .empty { color: var(--ink-3); font-size: 13px; padding: 4px 0 8px; }
+  .tiles4 { grid-template-columns: repeat(4, 1fr); }
+  .hist th, .hist td { font-size: 12.5px; padding: 7px 6px; }
+  .hist td.num { font-size: 13px; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 999px; }
+  .tag.r3 { background: var(--up-soft); color: var(--up); }
+  .tag.stop { background: var(--down-soft); color: var(--down); }
+  .tag.trend { background: var(--surface-2); color: var(--ink-2); }
+  @media (max-width: 560px) { .tiles4 { grid-template-columns: 1fr 1fr; } .tiles4 .tile + .tile { border-left: 0; border-top: 1px solid var(--line); } .tiles4 .tile:nth-child(2) { border-top: 0; border-left: 1px solid var(--line); } .tiles4 .tile:nth-child(4) { border-left: 1px solid var(--line); } }
+
   @media (prefers-reduced-motion: reduce) { .slot { transition: none; } }
 </style>
 </head>
@@ -279,7 +328,7 @@
   <header class="top">
     <div class="top-row">
       <p class="eyebrow">깡토의 추세추종 · 손실은 짧게, 수익은 길게</p>
-      <span class="mock-tag">v0.4 · 시세 손 입력</span>
+      <span class="mock-tag">v0.5 · 시세 손 입력 · 매매 기록</span>
     </div>
     <h1>맥스 2% 배팅 계산기</h1>
     <p class="sub">한 번 매매했을 때 내 시드머니에서 최대 2% 이상의 손실이 나지 않도록, 한 종목 최대 투자금 → 유닛 → 매수 수량·손절가·3R 목표가를 계산합니다. 기준은 깡토 「진입시점·매수비중·손절기준 이 영상 하나로 총정리」(2026-09-10).</p>
@@ -355,6 +404,19 @@
           <label for="price">매수가</label>
           <span class="inp"><input type="text" id="price" inputmode="numeric" class="wide" value="258,000"><span class="unit">원</span></span>
         </div>
+
+        <p class="section-label">매매 기록 동기화 (비밀 Gist)</p>
+        <div class="field">
+          <label for="pat">GitHub 토큰 (gist 권한만)</label>
+          <span class="inp"><input type="password" id="pat" class="wide" autocomplete="off" placeholder="ghp_…" style="text-align:left"></span>
+          <span class="stepper-note">
+            <button type="button" id="pat-save">연결</button>
+            <button type="button" id="pat-clear">해제</button>
+            <button type="button" id="sync-now">지금 불러오기</button>
+          </span>
+          <span class="sync-status" id="sync-status">Gist 확인 중…</span>
+          <span class="hint">토큰은 이 기기 브라우저에만 저장됩니다. 토큰이 없어도 읽기는 되고, 기록은 이 기기에만 남습니다.</span>
+        </div>
       </div>
     </aside>
 
@@ -425,6 +487,36 @@
                 <td id="o-target-note">3R 도달 = 성공 → 다음 종목 +1유닛</td>
               </tr>
             </tbody>
+          </table>
+        </div>
+        <div class="rec-row">
+          <input type="date" id="rec-date" aria-label="매수일">
+          <button type="button" class="btn primary" id="rec-buy">이 주문을 매수 기록</button>
+          <span class="msg" id="rec-msg">기록하면 아래 보유 종목에 들어가고, 3R·손절 결과가 종목 유닛을 자동으로 올리고 내립니다.</span>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="보유 종목">
+        <div class="ph"><h2>보유 종목</h2><small id="pos-sub">기록된 매수 중 아직 안 판 것</small></div>
+        <div class="pb">
+          <div class="sum-line" id="pos-sum"></div>
+          <div class="pos-grid" id="pos-grid"></div>
+          <div class="empty" id="pos-empty">아직 보유 종목이 없습니다. 주문 시트에서 "이 주문을 매수 기록"을 누르면 여기에 쌓입니다.</div>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="성적표">
+        <div class="ph"><h2>성적표</h2><small>완료된 매매 기준 · 영상 기준은 승률 30~40% · 손익비 1:3</small></div>
+        <div class="tiles tiles4">
+          <div class="tile"><div class="k">완료 매매</div><div class="v" id="st-n">0<small>건</small></div><div class="f" id="st-n-f">3R 0 · 손절 0 · 추세이탈 0</div></div>
+          <div class="tile"><div class="k">승률</div><div class="v" id="st-win">–</div><div class="f" id="st-win-f">수익으로 끝난 비율</div></div>
+          <div class="tile"><div class="k">평균 손익비</div><div class="v" id="st-payoff">–</div><div class="f" id="st-payoff-f">평균 수익% ÷ 평균 손실%</div></div>
+          <div class="tile"><div class="k">누적 손익</div><div class="v" id="st-pnl">0<small>원</small></div><div class="f" id="st-pnl-f">시드머니 대비 0%</div></div>
+        </div>
+        <div class="pb tbl-wrap hist" id="hist-wrap" hidden>
+          <table>
+            <thead><tr><th>종목</th><th>기간</th><th class="num">매수가 → 매도가</th><th class="num">손익</th><th>결과</th><th></th></tr></thead>
+            <tbody id="hist-body"></tbody>
           </table>
         </div>
       </section>
@@ -511,11 +603,190 @@
   $('regime-bear').addEventListener('click', () => setRegime('bear'));
 
   const clampLvl = () => { state.lvl = Math.min(Math.max(1, Math.round(state.lvl)), Math.max(1, Math.round(state.su))); };
-  const bump = (d) => { state.lvl += d; clampLvl(); render(); persist(); };
+  const bump = (d) => { state.lvl += d; clampLvl(); J.lvl = state.lvl; persist(); saveJ(); };
   $('lvl-up').addEventListener('click', () => bump(1));
   $('lvl-dn').addEventListener('click', () => bump(-1));
   $('ev-win').addEventListener('click', () => bump(1));
   $('ev-loss').addEventListener('click', () => bump(-1));
+
+  // ---- 매매 기록 (비밀 Gist + 이 기기 캐시) ----
+  const GIST_ID = 'c6b51154f833af7f224526ab182e5030';
+  const GIST_FILE = 'max2-journal.json';
+  const JKEY = 'max2calc.journal.v1', PKEY = 'max2calc.pat';
+  const getPat = () => { try { return localStorage.getItem(PKEY) || ''; } catch (e) { return ''; } };
+  const setPat = (v) => { try { v ? localStorage.setItem(PKEY, v) : localStorage.removeItem(PKEY); } catch (e) {} };
+  const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+  const hhmm = () => { const d = new Date(); return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; };
+  let J = { version: 1, lvl: state.lvl, trades: [], updatedAt: 0 };
+  try { const c = JSON.parse(localStorage.getItem(JKEY) || 'null'); if (c && Array.isArray(c.trades)) J = c; } catch (e) {}
+  if (typeof J.lvl === 'number') state.lvl = J.lvl;
+  let closing = null;          // { id, result }
+  let confirmDel = null;       // trade id awaiting 2nd click
+  const cacheJ = () => { try { localStorage.setItem(JKEY, JSON.stringify(J)); } catch (e) {} };
+  const setSync = (msg, cls) => { const el = $('sync-status'); el.textContent = msg; el.className = 'sync-status' + (cls ? ' ' + cls : ''); };
+  const ghHeaders = (auth) => { const h = { 'Accept': 'application/vnd.github+json' }; const t = getPat(); if (auth && t) h['Authorization'] = 'Bearer ' + t; return h; };
+
+  async function pullJ(silent) {
+    try {
+      const r = await fetch(`https://api.github.com/gists/${GIST_ID}`, { headers: ghHeaders(true), cache: 'no-store' });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const g = await r.json();
+      const f = g.files && g.files[GIST_FILE];
+      if (!f) throw new Error('파일 없음');
+      let txt = f.content;
+      if (f.truncated) { txt = await (await fetch(f.raw_url, { cache: 'no-store' })).text(); }
+      const remote = JSON.parse(txt);
+      if (!Array.isArray(remote.trades)) throw new Error('형식 오류');
+      if ((remote.updatedAt || 0) >= (J.updatedAt || 0)) { J = remote; cacheJ(); if (typeof J.lvl === 'number') { state.lvl = J.lvl; clampLvl(); } }
+      setSync(`Gist 불러옴 ${hhmm()} · ${getPat() ? '토큰 연결됨, 기록이 Gist에 저장됩니다' : '토큰 없음 · 기록은 이 기기에만 남습니다'}`, getPat() ? 'ok' : '');
+      render();
+    } catch (e) {
+      if (!silent) setSync(`Gist를 못 읽었습니다 (${e.message}) · 이 기기 캐시로 표시 중`, 'err');
+    }
+  }
+  let pushTimer = null;
+  function saveJ() {
+    J.updatedAt = Date.now(); cacheJ(); render();
+    if (!getPat()) { setSync('토큰 없음 · 이 기기에만 저장됨 (Gist에는 안 올라감)', ''); return; }
+    clearTimeout(pushTimer);
+    pushTimer = setTimeout(async () => {
+      try {
+        setSync('Gist에 저장 중…', '');
+        const r = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+          method: 'PATCH', headers: Object.assign({ 'Content-Type': 'application/json' }, ghHeaders(true)),
+          body: JSON.stringify({ files: { [GIST_FILE]: { content: JSON.stringify(J, null, 2) } } })
+        });
+        if (r.status === 401 || r.status === 403) throw new Error('토큰이 거부됐습니다. gist 권한이 있는 토큰인지 확인');
+        if (r.status === 404) throw new Error('이 토큰으로는 Gist를 못 찾습니다. Gist 주인 계정의 토큰인지 확인');
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        setSync(`Gist에 저장됨 ${hhmm()}`, 'ok');
+      } catch (e) { setSync(`저장 실패: ${e.message} · 이 기기에는 남아 있음`, 'err'); }
+    }, 400);
+  }
+  $('pat').value = getPat();
+  $('pat-save').addEventListener('click', async () => {
+    const v = $('pat').value.trim();
+    if (!v) { setSync('토큰을 입력하세요', 'err'); return; }
+    setSync('토큰 확인 중…', '');
+    try {
+      const r = await fetch(`https://api.github.com/gists/${GIST_ID}`, { headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + v }, cache: 'no-store' });
+      if (r.status === 401) throw new Error('토큰이 유효하지 않습니다');
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const g = await r.json();
+      const scopes = (r.headers.get('x-oauth-scopes') || '');
+      if (scopes && !/\bgist\b/.test(scopes)) throw new Error('이 토큰에 gist 권한이 없습니다 (현재: ' + scopes + ')');
+      setPat(v);
+      setSync(`연결됨 · Gist 주인 ${g.owner ? g.owner.login : '?'} · 이제 기록이 Gist에 저장됩니다`, 'ok');
+      pullJ(true);
+    } catch (e) { setSync('연결 실패: ' + e.message, 'err'); }
+  });
+  $('pat-clear').addEventListener('click', () => { setPat(''); $('pat').value = ''; setSync('토큰 해제 · 읽기는 계속 되고, 기록은 이 기기에만 남습니다', ''); });
+  $('sync-now').addEventListener('click', () => pullJ(false));
+  $('rec-date').value = today();
+
+  const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  const bumpJ = (d) => { J.lvl = Math.min(Math.max(1, (J.lvl || 1) + d), Math.max(1, Math.round(state.su))); state.lvl = J.lvl; };
+
+  $('rec-buy').addEventListener('click', () => {
+    const c = compute();
+    if (!(c.price > 0) || c.qty < 1) { $('rec-msg').textContent = '매수가를 넣고 1주 이상 살 수 있어야 기록됩니다.'; return; }
+    J.trades.push({ id: uid(), name: state.name || '종목', date: $('rec-date').value || today(), qty: c.qty, price: c.price, units: c.units,
+      r: state.r, rr: state.rr, stop: Math.round(c.stop), target: Math.round(c.target), status: 'open', exit: null });
+    $('rec-msg').textContent = `${state.name} ${fmt(c.qty)}주 @${fmt(c.price)} 기록했습니다. 보유 종목에서 결과를 눌러 마감하세요.`;
+    saveJ();
+  });
+
+  window.__j = {
+    startClose(id, result) { closing = { id, result }; confirmDel = null; render(); },
+    cancelClose() { closing = null; render(); },
+    confirmClose(id) {
+      const t = J.trades.find(x => x.id === id); if (!t || !closing) return;
+      const px = parseNum($('cf-price').value); const dt = $('cf-date').value || today();
+      if (!(px > 0)) { $('cf-price').focus(); return; }
+      t.status = 'closed'; t.exit = { date: dt, price: px, result: closing.result };
+      if (closing.result === '3R') bumpJ(1); else if (closing.result === 'stop') bumpJ(-1);
+      closing = null; saveJ();
+    },
+    del(id) {
+      if (confirmDel !== id) { confirmDel = id; render(); return; }
+      J.trades = J.trades.filter(x => x.id !== id); confirmDel = null; saveJ();
+    },
+    reopen(id) { const t = J.trades.find(x => x.id === id); if (!t) return; t.status = 'open'; t.exit = null; saveJ(); }
+  };
+
+  function renderJournal(c) {
+    const seed = c.seed || 0;
+    const open = J.trades.filter(t => t.status === 'open');
+    const closed = J.trades.filter(t => t.status === 'closed' && t.exit).sort((a, b) => (b.exit.date || '').localeCompare(a.exit.date || '') || (b.id > a.id ? 1 : -1));
+    // 보유
+    const risk = open.reduce((a, t) => a + t.qty * t.price * (t.r / 100), 0);
+    const invested = open.reduce((a, t) => a + t.qty * t.price, 0);
+    const overCount = c.maxStocks > 0 ? open.length > c.maxStocks : false;
+    $('pos-sum').innerHTML = open.length
+      ? `보유 <b>${open.length}종목</b> · 투입 <b>${fmt(invested)}원</b> (시드머니의 ${seed ? pct(invested / seed, 1) : '–'}) · 전부 손절 나면 <b>−${fmt(risk)}원</b> (시드머니의 ${seed ? pct(risk / seed, 2) : '–'})` + (overCount ? ` <span class="pill warn">풀 배팅 기준 ${c.maxStocks}종목 초과</span>` : '')
+      : '';
+    $('pos-empty').hidden = open.length > 0;
+    const grid = $('pos-grid'); grid.innerHTML = '';
+    for (const t of open) {
+      const riskAmt = t.qty * t.price * (t.r / 100);
+      const over = riskAmt > c.maxLoss + 0.5;
+      const el = document.createElement('div'); el.className = 'pos' + (over ? ' over' : '');
+      const isClosing = closing && closing.id === t.id;
+      const pre = isClosing ? (closing.result === '3R' ? t.target : closing.result === 'stop' ? t.stop : '') : '';
+      el.innerHTML = `
+        <div class="hd"><span class="nm">${esc(t.name)}</span><span class="dt">${t.date} 매수 · ${t.units}유닛</span></div>
+        <div class="nums">
+          <div><span>수량 · 매수가</span><b>${fmt(t.qty)}주 @${fmt(t.price)}</b></div>
+          <div><span>손절가 −${t.r}%</span><b class="down">${fmt(t.stop)}</b></div>
+          <div><span>목표가 ${t.rr}R +${(t.r * t.rr).toFixed(0)}%</span><b class="up">${fmt(t.target)}</b></div>
+          <div><span>투입</span><b>${fmt(t.qty * t.price)}원</b></div>
+          <div><span>손절 시 손실</span><b class="down">−${fmt(riskAmt)}원</b></div>
+          <div><span>시드머니 대비</span><b>${seed ? pct(riskAmt / seed, 2) : '–'}${over ? ' <span class="pill warn">맥스 초과</span>' : ''}</b></div>
+        </div>
+        ${isClosing ? `
+        <div class="close-form">
+          <label>매도가 <input type="text" id="cf-price" inputmode="numeric" value="${pre ? fmt(pre) : ''}" placeholder="원"></label>
+          <label>매도일 <input type="date" id="cf-date" value="${today()}"></label>
+          <div class="cf-btns"><button type="button" class="btn primary" onclick="__j.confirmClose('${t.id}')">${closing.result === '3R' ? '3R 도달로 마감 → 종목 유닛 +1' : closing.result === 'stop' ? '손절로 마감 → 종목 유닛 −1' : '추세 이탈 매도로 마감 (유닛 그대로)'}</button><button type="button" class="btn ghost" onclick="__j.cancelClose()">취소</button></div>
+        </div>` : `
+        <div class="acts">
+          <button type="button" class="btn up" onclick="__j.startClose('${t.id}','3R')">3R 도달</button>
+          <button type="button" class="btn down" onclick="__j.startClose('${t.id}','stop')">손절</button>
+          <button type="button" class="btn" onclick="__j.startClose('${t.id}','trend')">추세 이탈 매도</button>
+          <button type="button" class="btn ghost danger" onclick="__j.del('${t.id}')">${confirmDel === t.id ? '정말 삭제' : '삭제'}</button>
+        </div>`}`;
+      grid.appendChild(el);
+    }
+    // 성적표
+    const n = closed.length;
+    const pnlOf = (t) => (t.exit.price - t.price) * t.qty;
+    const pctOf = (t) => t.exit.price / t.price - 1;
+    const wins = closed.filter(t => pnlOf(t) > 0), losses = closed.filter(t => pnlOf(t) < 0);
+    const cnt = (r) => closed.filter(t => t.exit.result === r).length;
+    const avg = (arr, f) => arr.length ? arr.reduce((a, t) => a + f(t), 0) / arr.length : 0;
+    const avgWin = avg(wins, pctOf), avgLoss = Math.abs(avg(losses, pctOf));
+    const totalPnl = closed.reduce((a, t) => a + pnlOf(t), 0);
+    $('st-n').innerHTML = n + '<small>건</small>';
+    $('st-n-f').textContent = `3R ${cnt('3R')} · 손절 ${cnt('stop')} · 추세이탈 ${cnt('trend')}`;
+    $('st-win').textContent = n ? pct(wins.length / n, 0) : '–';
+    $('st-win-f').textContent = n ? `${wins.length}승 ${losses.length}패${n - wins.length - losses.length ? ` ${n - wins.length - losses.length}본전` : ''}` : '수익으로 끝난 비율';
+    $('st-payoff').textContent = (wins.length && losses.length) ? `1 : ${(avgWin / avgLoss).toFixed(1)}` : '–';
+    $('st-payoff-f').textContent = (wins.length || losses.length) ? `평균 수익 +${pct(avgWin, 1)} · 평균 손실 −${pct(avgLoss, 1)}` : '평균 수익% ÷ 평균 손실%';
+    $('st-pnl').innerHTML = (totalPnl < 0 ? '−' : '') + fmt(Math.abs(totalPnl)) + '<small>원</small>';
+    $('st-pnl').style.color = totalPnl > 0 ? 'var(--up)' : totalPnl < 0 ? 'var(--down)' : '';
+    $('st-pnl-f').textContent = `시드머니 대비 ${seed ? (totalPnl >= 0 ? '+' : '−') + pct(Math.abs(totalPnl) / seed, 2) : '–'} · 지금 종목 유닛 ${J.lvl || 1}`;
+    $('hist-wrap').hidden = n === 0;
+    const tb = $('hist-body'); tb.innerHTML = '';
+    for (const t of closed.slice(0, 30)) {
+      const pnl = pnlOf(t), pc = pctOf(t);
+      const cls = pnl > 0 ? 'up' : pnl < 0 ? 'down' : '';
+      const tag = t.exit.result === '3R' ? '<span class="tag r3">3R</span>' : t.exit.result === 'stop' ? '<span class="tag stop">손절</span>' : '<span class="tag trend">추세이탈</span>';
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${esc(t.name)}<div class="sub" style="display:block;font-size:11px;color:var(--ink-3)">${fmt(t.qty)}주 · ${t.units}유닛</div></td><td style="white-space:nowrap">${t.date} → ${t.exit.date}</td><td class="num">${fmt(t.price)} → ${fmt(t.exit.price)}</td><td class="num ${cls}">${pnl >= 0 ? '+' : '−'}${fmt(Math.abs(pnl))}<br><small>${pc >= 0 ? '+' : '−'}${pct(Math.abs(pc), 1)}</small></td><td>${tag}</td><td><button type="button" class="btn ghost" onclick="__j.reopen('${t.id}')" title="다시 보유로">되돌리기</button> <button type="button" class="btn ghost danger" onclick="__j.del('${t.id}')">${confirmDel === t.id ? '정말 삭제' : '삭제'}</button></td>`;
+      tb.appendChild(tr);
+    }
+  }
+  const esc = (x) => String(x).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 
   // ---- compute ----
   function compute() {
@@ -606,6 +877,8 @@
     $('c-edge').innerHTML = `열 번 매매해서 일곱 번 실패 ${L} × −${s.r}% = −${lossSum.toFixed(0)}%, 세 번 성공 ${W} × +${(s.r * s.rr).toFixed(0)}% = +${winSum.toFixed(0)}% → 빼도 <b>${net >= 0 ? '+' : ''}${net.toFixed(0)}%</b>`;
     $('c-be').innerHTML = `손익비 1:${s.rr}이면 <b>${pct(c.be, 0)}</b>만 성공해도 본전 (추세추종 평균 승률 30~40%)`;
 
+    renderJournal(c);
+
     // 깡토의 설명대로 — 입력한 숫자로 채움
     const tgt = (s.r * s.rr).toFixed(1).replace(/\.0$/, '');
     const rTxt = String(s.r).replace(/\.0$/, '');
@@ -626,6 +899,7 @@
 
   clampLvl();
   render();
+  pullJ(false);
   if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js').catch(() => {}); }
 })();
 </script>
